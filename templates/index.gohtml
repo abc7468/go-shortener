@@ -16,23 +16,25 @@
 </head>
 
 <div class="wrapper">
-    <form action="#" autocomplete="off">
-      <input type="text" spellcheck="false" name="full_url" placeholder="Enter or paste a long url" required>
-      <i class="url-icon uil uil-link"></i>
-      <button>Shorten</button>
-    </form>
-        <div class="urls-area">
-          <div class="title">
-            <li>Shorten URL</li>
-            <li>Original URL</li>
-            <li>Action</li>
-          </div>
-          <div class = "data">
-          <li>test1</li>  
-          <li>test2</li>  
-          <li><a href="delete">Delete</a></li>
-          </div>
+  <form action="#" autocomplete="off">
+    <input type="text" spellcheck="false" name="full_url" placeholder="Enter or paste a long url" required>
+    <i class="url-icon uil uil-link"></i>
+    <button>Shorten</button>
+  </form>
+    <div class="urls-area">
+      <div class="title">
+        <li>Shorten URL</li>
+        <li>Original URL</li>
+        <li>Action</li>
       </div>
+      {{range .urls}}
+      <div class = "data">
+        <li>{{.ShortenerUrl}}</li>  
+        <li>{{.OriginalUrl}}</li>  
+        <li><a data-confirm="Are you sure?" data-method="delete" href="url/{{.ShortenerUrl}}">Delete</a></li>
+      </div>
+      {{end}}
+    </div>
   </div>
 
   <div class="blur-effect"></div>

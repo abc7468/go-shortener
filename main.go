@@ -1,15 +1,11 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	db "github.com/abc7468/go-shortener/DB"
+	"github.com/abc7468/go-shortener/home"
+)
 
 func main() {
-	r := gin.Default()
-	r.LoadHTMLGlob("templates/*")
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", gin.H{
-			"title": "URL SHORTENER",
-		},
-		)
-	})
-	r.Run()
+	db.InitDB()
+	home.Start()
 }
