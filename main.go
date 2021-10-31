@@ -1,11 +1,9 @@
 package main
 
 import (
-	db "github.com/abc7468/go-shortener/DB"
-	"github.com/abc7468/go-shortener/home"
+	"github.com/abc7468/go-shortener/app"
 )
 
 func main() {
-	db.InitDB()
-	home.Start()
+	app.Start()
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func ShortenerPage(c *gin.Context) {
-	urls := model.GetAllUrls()
+	urls := model.GetAllUrls(":8080")
 
 	c.HTML(200, "index.gohtml", gin.H{
 		"title": "URL SHORTENER",
@@ -15,12 +15,10 @@ func ShortenerPage(c *gin.Context) {
 	)
 }
 
-func Start() {
-	r := gin.Default()
+func Routing(r *gin.Engine) {
 	r.LoadHTMLFiles("templates/index.gohtml")
 	r.Static("css", "./templates/css")
 	r.Static("js", "./templates/js")
 	r.Static("imgs", "./templates/imgs")
 	r.GET("/", ShortenerPage)
-	r.Run()
 }

@@ -47,20 +47,22 @@ func SaveURL(shortener, original string) {
 
 	}
 }
-func LoadUrl(shortener string) []byte {
+func LoadUrl(shortener string) string {
 	var data []byte
 	db.View(func(t *bolt.Tx) error {
 		bucket := t.Bucket([]byte(dataBucket))
 		data = bucket.Get([]byte(shortener))
 		return nil
 	})
-	return data
+	if data == nil {
+		return ""
+	}
+	return string(data)
 }
 func LoadAllUrls() [][]string {
 	var urls [][]string
 
 	db.View(func(tx *bolt.Tx) error {
-		// Assume bucket exists and has keys
 		b := tx.Bucket([]byte(dataBucket))
 
 		b.ForEach(func(k, v []byte) error {
