@@ -29,8 +29,7 @@ func saveShortener(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	hash := shortener.MakeShorten(data.OriginUrl)
-	db.SaveURL(hash, data.OriginUrl)
+	shortener.SaveShortenUrl(data.OriginUrl)
 }
 
 func deleteShortener(c *gin.Context) {
@@ -64,4 +63,5 @@ func Routing(r *gin.Engine) {
 	api.GET("/", documentation)
 	api.POST("/shortener", saveShortener)
 	api.DELETE("/shortener", deleteShortener)
+	r.GET("/")
 }
