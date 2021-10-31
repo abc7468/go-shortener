@@ -1,10 +1,42 @@
 const form = document.querySelector(".wrapper form"),
 fullURL = form.querySelector("input"),
-shortenBtn = form.querySelector("form button"),
-blurEffect = document.querySelector(".blur-effect"),
-popupBox = document.querySelector(".popup-box"),
-infoBox = popupBox.querySelector(".info-box"),
-form2 = popupBox.querySelector("form"),
-shortenURL = popupBox.querySelector("form .shorten-url"),
-copyIcon = popupBox.querySelector("form .copy-icon"),
-saveBtn = popupBox.querySelector("button");
+shortenBtn = form.querySelector("form button");
+delBtns = document.querySelectorAll(".delbtn");
+
+function deleteURL(id){
+    var data = JSON.stringify({ origin_url: id })
+    
+    $.ajax({
+        type:"DELETE",
+        url:"/api/shortener",
+        headers:{
+            "Accept": "application/json",
+            "Content-Type" : "application/json",
+        },
+        data : data,
+
+        success:function(response){
+            window.location = '/'
+        }
+    });
+}
+
+
+
+
+shortenBtn.onclick = ()=>{
+    var data = JSON.stringify({ origin_url: fullURL.value })
+    $.ajax({
+        type:"POST",
+        url:"/api/shortener",
+        headers:{
+            "Accept": "application/json",
+            "Content-Type" : "application/json",
+        },
+        data : data,
+
+        success:function(response){
+            window.location = '/'
+        }
+    });
+}
