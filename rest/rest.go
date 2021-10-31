@@ -32,13 +32,23 @@ func saveShortener(c *gin.Context) {
 	shortener.SaveShortenUrl(data.OriginUrl)
 }
 
+func findEndPoint(c *gin.Context) {
+	data := c.Param("shortenUrl")
+	originUrl := shortener.GetOriginWithShortenUrl(data)
+	if originUrl == "" {
+		c.String(http.StatusBadRequest, "%s는 잘못된 입력입니다.", data)
+		return
+	}
+	c.Redirect(301, originUrl)
+}
+
 func deleteShortener(c *gin.Context) {
 	data := model.ResponseData{}
 	err := c.Bind(&data)
 	if err != nil {
 		fmt.Println(err)
 	}
-	db.DeleteUrl(data.OriginUrl)
+	db.DeleteUrl(data.OriginUrl[len(data.OriginUrl)-8:])
 }
 func documentation(c *gin.Context) {
 	data := []urlDescription{
@@ -63,5 +73,5 @@ func Routing(r *gin.Engine) {
 	api.GET("/", documentation)
 	api.POST("/shortener", saveShortener)
 	api.DELETE("/shortener", deleteShortener)
-	r.GET("/")
+	r.GET("/:shortenUrl", findEndPoint)
 }
