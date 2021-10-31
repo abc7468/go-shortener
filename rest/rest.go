@@ -29,16 +29,29 @@ func saveShortener(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(data)
 	hash := shortener.MakeShorten(data.OriginUrl)
 	db.SaveURL(hash, data.OriginUrl)
+}
+
+func deleteShortener(c *gin.Context) {
+	data := model.ResponseData{}
+	err := c.Bind(&data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	db.DeleteUrl(data.OriginUrl)
 }
 func documentation(c *gin.Context) {
 	data := []urlDescription{
 		{
-			URL:         url("/"),
-			Method:      "GET",
-			Description: "See Documentation",
+			URL:         url("/api/shortener"),
+			Method:      "POST",
+			Description: "Make Shorten URL",
+		},
+		{
+			URL:         url("/api/shortener"),
+			Method:      "DELETE",
+			Description: "DELETE Shorten URL",
 		},
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -50,5 +63,5 @@ func Routing(r *gin.Engine) {
 	api := r.Group("/api")
 	api.GET("/", documentation)
 	api.POST("/shortener", saveShortener)
-
+	api.DELETE("/shortener", deleteShortener)
 }
