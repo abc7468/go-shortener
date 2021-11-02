@@ -49,8 +49,11 @@ func saveShortener(c *gin.Context) {
 func findEndPoint(c *gin.Context) {
 	data := c.Param("shortenUrl")
 	originUrl := shortener.GetOriginWithShortenUrl(data)
-	if originUrl == "" {
-		c.String(http.StatusBadRequest, "%s는 잘못된 입력입니다.", data)
+	if data != "favicon.ico" && originUrl == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": fmt.Sprintf("%s는 저장된 값이 아닙니다.", data),
+		})
+
 		return
 	}
 	c.Redirect(301, originUrl)

@@ -14,9 +14,14 @@ function deleteURL(id){
             "Content-Type" : "application/json",
         },
         data : data,
-
-        success:function(response){
+        async: false,
+        success:function(){
             window.location = '/'
+        },
+        error:function(request,status,error){
+            
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            
         }
     });
 }
@@ -34,9 +39,14 @@ shortenBtn.onclick = ()=>{
             "Content-Type" : "application/json",
         },
         data : data,
-
-        success:function(response){
+        async : false,
+        success:function(){
             window.location = '/'
+        },
+        error:function(request,status,error){
+            
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            
         }
     });
 }
