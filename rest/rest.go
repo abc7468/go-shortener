@@ -29,7 +29,21 @@ func saveShortener(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	shortener.SaveShortenUrl(data.OriginUrl)
+	errNum := shortener.SaveShortenUrl(data.OriginUrl)
+	switch errNum {
+	case shortener.ErrNotRightUrl:
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "옳지 않은 입력값",
+		})
+	case shortener.ErrNotUniqueUrl:
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "중복된 입력값",
+		})
+	case shortener.ErrNotUniqueHash:
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "해시 충돌. 다른 URL을 입력하세요.",
+		})
+	}
 }
 
 func findEndPoint(c *gin.Context) {
