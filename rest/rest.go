@@ -12,6 +12,8 @@ import (
 
 type url string
 
+var port string
+
 type urlDescription struct {
 	URL         url    `json:"url"`
 	Method      string `json:"method"`
@@ -20,7 +22,7 @@ type urlDescription struct {
 }
 
 func (u url) MarshalText() ([]byte, error) {
-	url := fmt.Sprintf("http://localhost:8080%s", u)
+	url := fmt.Sprintf("http://localhost%s%s", port, u)
 	return []byte(url), nil
 }
 func saveShortener(c *gin.Context) {
@@ -102,7 +104,8 @@ func documentation(c *gin.Context) {
 	})
 }
 
-func Routing(r *gin.Engine) {
+func Routing(portNum string, r *gin.Engine) {
+	port = portNum
 	api := r.Group("/api")
 	api.GET("/", documentation)
 	api.POST("/shortener", saveShortener)
