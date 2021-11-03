@@ -20,7 +20,7 @@ type urlDescription struct {
 }
 
 func (u url) MarshalText() ([]byte, error) {
-	url := fmt.Sprintf("http://localhost:8080/api/%s", u)
+	url := fmt.Sprintf("http://localhost:8080%s", u)
 	return []byte(url), nil
 }
 func saveShortener(c *gin.Context) {
@@ -66,9 +66,21 @@ func deleteShortener(c *gin.Context) {
 		fmt.Println(err)
 	}
 	db.DeleteUrl(data.OriginUrl[len(data.OriginUrl)-8:])
+
 }
 func documentation(c *gin.Context) {
+	c.Header("Content-Type", "application/json")
 	data := []urlDescription{
+		{
+			URL:         url("/"),
+			Method:      "GET",
+			Description: "Shortener Main Page",
+		},
+		{
+			URL:         url("/api"),
+			Method:      "GET",
+			Description: "Document Page",
+		},
 		{
 			URL:         url("/api/shortener"),
 			Method:      "POST",
@@ -78,6 +90,11 @@ func documentation(c *gin.Context) {
 			URL:         url("/api/shortener"),
 			Method:      "DELETE",
 			Description: "DELETE Shorten URL",
+		},
+		{
+			URL:         url("/{Hash}"),
+			Method:      "GET",
+			Description: "Go Original URL with Shorten URL if Hash stored in DB",
 		},
 	}
 	c.JSON(http.StatusOK, gin.H{
