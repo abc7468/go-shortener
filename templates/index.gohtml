@@ -17,16 +17,15 @@
 </head>
 
 <div class="wrapper">
-  <h2>URL SHORTENER</h2>
   <form action="#" autocomplete="off">
-    <input type="text" spellcheck="false" name="origin_url" placeholder="Enter or paste a long url with protocol" required>
+    <input type="text" spellcheck="false" name="origin_url" placeholder="Enter or paste a long url" required>
     <button>Shorten</button>
   </form>
     <div class="urls-area">
       <div class="title">
         <li>Shorten URL</li>
         <li>Original URL</li>
-        <li></li>
+        <li>Action</li>
       </div>
       {{range .urls}}
       <div class = "data">
@@ -38,7 +37,6 @@
     </div>
   </div>
 </div>
-
 
   <script src="js/script.js"></script>
 
