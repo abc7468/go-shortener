@@ -13,7 +13,8 @@ func Start() {
 	db.InitDB()
 	defer db.Close()
 	router = gin.Default()
-	home.Routing(router)
-	rest.Routing(router)
+	portNum := ":8080"
+	home.Routing(*portNum, router)
+	rest.Routing(*portNum, router)
 	router.Run(":8080")
 }

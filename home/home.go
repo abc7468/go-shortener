@@ -5,8 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var port string
+
 func ShortenerPage(c *gin.Context) {
-	urls := model.GetAllUrls(":8080")
+	urls := model.GetAllUrls(port)
 
 	c.HTML(200, "index.gohtml", gin.H{
 		"title": "URL SHORTENER",
@@ -15,7 +17,8 @@ func ShortenerPage(c *gin.Context) {
 	)
 }
 
-func Routing(r *gin.Engine) {
+func Routing(portNum string, r *gin.Engine) {
+	port = portNum
 	r.LoadHTMLFiles("templates/index.gohtml")
 	r.Static("css", "./templates/css")
 	r.Static("js", "./templates/js")
